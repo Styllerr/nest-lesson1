@@ -5,7 +5,7 @@ import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: '../.env' }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -13,7 +13,7 @@ import { UsersModule } from './users/users.module';
         return {
           type: 'postgres',
           username: config.get('TYPEORM_USERNAME'),
-          password: config.get('TYPEORM_PASSWORD'),
+          password: config.get<string>('TYPEORM_PASSWORD').toString(),
           database: config.get('TYPEORM_DATABASE'),
           port: +config.get('TYPEORM_PORT'),
           entities: [__dirname + 'dist/**/*.entity{.ts, .js}'],
